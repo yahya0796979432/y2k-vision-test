@@ -4,7 +4,6 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
-      # ترك الإصدار الافتراضي للمنصة ليتوافق مع كود مشروعك تلقائياً
       flutter: stable
       java: 17
     scripts:
@@ -14,12 +13,13 @@ workflows:
       - name: Clean project
         script: |
           flutter clean
-      - name: Get Flutter packages
+      - name: Enable Web Support and Get Packages
         script: |
+          # تفعيل دعم الويب لتجنب انهيار مكتبات الجافا سكريبت
+          flutter config --enable-web
           flutter pub get
       - name: Build Android APK
         script: |
-          # أمر البناء الرسمي والآمن الذي يتجاوز مشاكل ملفات جرادل المفقودة
           flutter build apk --release --no-pub
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
