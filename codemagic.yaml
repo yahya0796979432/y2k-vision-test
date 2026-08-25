@@ -16,7 +16,8 @@ workflows:
           flutter pub get
       - name: Fix Kotlin and Build APK
         script: |
-          # منع جرادل من محاولة تحميل جافا وتثبيت بيئة العمل المحلية
-          flutter build apk --debug --pub --no-shrink --gradle-user-home=$HOME/.gradle --project-option=org.gradle.java.installations.auto-download=false
+          # تمرير متغيرات بيئة العمل لجرادل بشكل منفصل لمنع التحميل التلقائي
+          export GRADLE_OPTS="-Dorg.gradle.java.installations.auto-download=false"
+          flutter build apk --debug
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
