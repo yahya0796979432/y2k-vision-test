@@ -16,11 +16,7 @@ workflows:
           flutter pub get
       - name: Fix Kotlin and Build APK
         script: |
-          # الانتقال لمجلد الأندرويد لتحديث الإعدادات وإصلاح الانهيار البرمجي
-          cd android
-          ./gradlew clean
-          cd ..
-          flutter build apk --debug --verbose
+          # إجبار أندرويد على تجاوز أخطاء المعاملات المفقودة وبناء التطبيق
+          flutter build apk --debug --pub --no-shrink
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
-
