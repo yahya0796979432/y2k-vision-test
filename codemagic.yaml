@@ -16,7 +16,7 @@ workflows:
           flutter pub get
       - name: Fix Kotlin and Build APK
         script: |
-          # إجبار أندرويد على تجاوز أخطاء المعاملات المفقودة وبناء التطبيق
-          flutter build apk --debug --pub --no-shrink
+          # منع جرادل من محاولة تحميل جافا وتثبيت بيئة العمل المحلية
+          flutter build apk --debug --pub --no-shrink --gradle-user-home=$HOME/.gradle --project-option=org.gradle.java.installations.auto-download=false
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
