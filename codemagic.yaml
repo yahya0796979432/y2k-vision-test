@@ -14,10 +14,11 @@ workflows:
         script: |
           flutter clean
           flutter pub get
-      - name: Build Android APK via Gradle
+      - name: Build Android APK via Global Gradle
         script: |
-          # البناء عن طريق أداة جرادل مباشرة لتوليد السجل الفعلي وتجنب انهيار فلاتر
+          # استخدام أداة جرادل العالمية المتوفرة على النظام لتفادي مشكلة الملف المفقود
           cd android
-          ./gradlew assembleDebug --stacktrace
+          gradle assembleDebug --stacktrace
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
+
