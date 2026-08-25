@@ -19,8 +19,9 @@ workflows:
           flutter pub get
       - name: Build Android APK via Native Gradle
         script: |
-          # الانتقال لمجلد الأندرويد والبناء مباشرة لتجنب انهيار أداة فلاتر
           cd android
+          gradle wrapper
+          chmod +x gradlew
           ./gradlew assembleRelease
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
