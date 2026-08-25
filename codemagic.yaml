@@ -14,9 +14,10 @@ workflows:
         script: |
           flutter clean
           flutter pub get
-      - name: Fix Kotlin and Build APK
+      - name: Build Android APK via Gradle
         script: |
-          # إضافة أمر طباعة تفاصيل الخطأ البرمجي كاملة لمعرفة السبب الحقيقي
-          flutter build apk --debug --stacktrace
+          # البناء عن طريق أداة جرادل مباشرة لتوليد السجل الفعلي وتجنب انهيار فلاتر
+          cd android
+          ./gradlew assembleDebug --stacktrace
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
