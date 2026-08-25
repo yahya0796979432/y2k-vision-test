@@ -16,8 +16,7 @@ workflows:
           flutter pub get
       - name: Fix Kotlin and Build APK
         script: |
-          # تمرير متغيرات بيئة العمل لجرادل بشكل منفصل لمنع التحميل التلقائي
-          export GRADLE_OPTS="-Dorg.gradle.java.installations.auto-download=false"
-          flutter build apk --debug
+          # إضافة أمر طباعة تفاصيل الخطأ البرمجي كاملة لمعرفة السبب الحقيقي
+          flutter build apk --debug --stacktrace
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
