@@ -15,11 +15,11 @@ workflows:
           flutter clean
       - name: Enable Web Support and Get Packages
         script: |
-          # تفعيل دعم الويب لتجنب انهيار مكتبات الجافا سكريبت
           flutter config --enable-web
           flutter pub get
       - name: Build Android APK
         script: |
-          flutter build apk --release --no-pub
+          # تشغيل البناء وتحويل المخرجات لملف نصي لطباعته كاملاً في حال حدوث خطأ
+          flutter build apk --release --no-pub > build_log.txt 2>&1 || (cat build_log.txt && exit 1)
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
