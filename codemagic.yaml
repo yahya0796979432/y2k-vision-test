@@ -22,7 +22,8 @@ workflows:
           cd android
           gradle wrapper
           chmod +x gradlew
-          ./gradlew assembleRelease
+          # تم إضافة --stacktrace لمعرفة السطر المسبب للمشكلة بالضبط داخل أندرويد
+          ./gradlew assembleRelease --stacktrace
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
       - build/app/outputs/apk/release/*.apk
