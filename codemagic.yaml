@@ -6,6 +6,7 @@ workflows:
     environment:
       flutter: stable
       java: 17
+            gradle:8.5
     scripts:
       - name: Set up local.properties
         script: |
