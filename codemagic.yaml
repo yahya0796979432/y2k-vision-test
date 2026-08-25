@@ -17,13 +17,10 @@ workflows:
         script: |
           flutter config --enable-web
           flutter pub get
-      - name: Build Android APK via Native Gradle
+      - name: Build Android APK
         script: |
-          cd android
-          gradle wrapper
-          chmod +x gradlew
-          # تم إضافة --stacktrace لمعرفة السطر المسبب للمشكلة بالضبط داخل أندرويد
-          ./gradlew assembleRelease --stacktrace
+          # البناء الآمن والمباشر عبر فلاتر لتفادي تعارض ملفات أندرويد
+          flutter build apk --release
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
       - build/app/outputs/apk/release/*.apk
