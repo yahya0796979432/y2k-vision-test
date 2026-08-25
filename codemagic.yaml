@@ -10,14 +10,15 @@ workflows:
       - name: Set up local.properties
         script: |
           echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
+      - name: Generate Gradle Wrapper
+        script: |
+          # توليد ملفات جرادل المفقودة تلقائياً
+          flutter build apk --config-only
       - name: Get Flutter packages
         script: |
           flutter packages pub get
       - name: Build Android AAB
         script: |
-          cd android
-          ./gradlew wrapper --gradle-version 8.5
-          cd ..
           flutter build appbundle --debug
     artifacts:
       - build/app/outputs/bundle/**/*.aab
