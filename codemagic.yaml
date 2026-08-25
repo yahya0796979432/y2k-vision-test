@@ -31,9 +31,14 @@ workflows:
           sed -i '' '/plugins {/a\
               id "org.jetbrains.kotlin.android"
           ' android/app/build.gradle
-      - name: Fix Android Manifest Structure
+      - name: Enable Web Support and Get Packages
         script: |
-          # حقن ملف Manifest القياسي المتوافق بنسبة 100% لتخطي أخطاء الـ Validation
+          flutter config --enable-web
+          flutter pub get
+      - name: Build Android APK
+        script: |
+          # حقن إجباري ومباشر لملف Manifest السليم لإنهاء أخطاء النقص تماماً
+          mkdir -p android/app/src/main
           cat << 'EOF' > android/app/src/main/AndroidManifest.xml
           <manifest xmlns:android="http://android.com">
               <application
@@ -63,12 +68,8 @@ workflows:
               </application>
           </manifest>
           EOF
-      - name: Enable Web Support and Get Packages
-        script: |
-          flutter config --enable-web
-          flutter pub get
-      - name: Build Android APK
-        script: |
+          
+          # بدء البناء الرسمي النظيف
           flutter build apk --release
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
