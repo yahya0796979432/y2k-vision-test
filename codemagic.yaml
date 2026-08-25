@@ -10,15 +10,17 @@ workflows:
       - name: Set up local.properties
         script: |
           echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
+      - name: Clean and Get Packages
+        script: |
+          # تنظيف الكاش وجلب الحزم من جديد لمنع الانهيار
+          flutter clean
+          flutter pub get
       - name: Generate Gradle Wrapper
         script: |
-          # توليد ملفات جرادل المفقودة تلقائياً
           flutter build apk --config-only
-      - name: Get Flutter packages
+      - name: Build Android APK
         script: |
-          flutter packages pub get
-      - name: Build Android AAB
-        script: |
-          flutter build appbundle --debug
+          # بناء صيغة APK بدلاً من App Bundle للتأكد من استقرار الأداة
+          flutter build apk --debug
     artifacts:
-      - build/app/outputs/bundle/**/*.aab
+      - build/app/outputs/flutter-apk/*.apk
