@@ -10,8 +10,10 @@ workflows:
       - name: Set up local.properties
         script: |
           echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
-      - name: Clean project
+      - name: Fix Android and Clean Project
         script: |
+          # إعادة توليد ملفات أندرويد القياسية النظيفة وحذف التعارضات القديمة
+          flutter create . --platforms=android
           flutter clean
       - name: Enable Web Support and Get Packages
         script: |
@@ -19,7 +21,7 @@ workflows:
           flutter pub get
       - name: Build Android APK
         script: |
-          # البناء الآمن والمباشر عبر فلاتر لتفادي تعارض ملفات أندرويد
+          # البناء المستقر والآمن عبر فلاتر مباشرة
           flutter build apk --release
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
