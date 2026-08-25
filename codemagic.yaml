@@ -17,9 +17,11 @@ workflows:
         script: |
           flutter config --enable-web
           flutter pub get
-      - name: Build Android APK
+      - name: Build Android APK via Native Gradle
         script: |
-          # إجبار فلاتر على بناء التطبيق وتجاوز فحص المكتبات المسببة للانهيار
-          flutter build apk --release --no-pub --no-validate-project
+          # الانتقال لمجلد الأندرويد والبناء مباشرة لتجنب انهيار أداة فلاتر
+          cd android
+          ./gradlew assembleRelease
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/apk/release/*.apk
