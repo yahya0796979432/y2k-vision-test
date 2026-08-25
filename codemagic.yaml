@@ -4,7 +4,6 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
-      # تحديد الإصدار المستقر السابق لمنع انهيار الأداة
       flutter: 3.22.3
       java: 17
     scripts:
@@ -15,12 +14,13 @@ workflows:
         script: |
           flutter clean
           flutter pub get
-      - name: Generate Gradle Wrapper
+      - name: Fix Kotlin and Build APK
         script: |
-          flutter build apk --config-only
-      - name: Build Android APK
-        script: |
-          flutter build apk --debug
+          # الانتقال لمجلد الأندرويد لتحديث الإعدادات وإصلاح الانهيار البرمجي
+          cd android
+          ./gradlew clean
+          cd ..
+          flutter build apk --debug --verbose
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
 
