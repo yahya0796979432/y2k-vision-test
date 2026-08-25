@@ -4,19 +4,22 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
-      flutter: 3.22.3
+      # ترك الإصدار الافتراضي للمنصة ليتوافق مع كود مشروعك تلقائياً
+      flutter: stable
       java: 17
     scripts:
       - name: Set up local.properties
         script: |
           echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
-      - name: Clean and Get Packages
+      - name: Clean project
         script: |
           flutter clean
-          flutter pub get
-      - name: Build Android APK via Global Gradle
+      - name: Get Flutter packages
         script: |
-          cd android
-          gradle assembleDebug --stacktrace
+          flutter pub get
+      - name: Build Android APK
+        script: |
+          # أمر البناء الرسمي والآمن الذي يتجاوز مشاكل ملفات جرادل المفقودة
+          flutter build apk --release --no-pub
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
