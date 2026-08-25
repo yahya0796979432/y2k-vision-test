@@ -4,7 +4,8 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
-      flutter: stable
+      # تحديد الإصدار المستقر السابق لمنع انهيار الأداة
+      flutter: 3.22.3
       java: 17
     scripts:
       - name: Set up local.properties
@@ -12,7 +13,6 @@ workflows:
           echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
       - name: Clean and Get Packages
         script: |
-          # تنظيف الكاش وجلب الحزم من جديد لمنع الانهيار
           flutter clean
           flutter pub get
       - name: Generate Gradle Wrapper
@@ -20,7 +20,7 @@ workflows:
           flutter build apk --config-only
       - name: Build Android APK
         script: |
-          # بناء صيغة APK بدلاً من App Bundle للتأكد من استقرار الأداة
           flutter build apk --debug
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
+
