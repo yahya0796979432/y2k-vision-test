@@ -6,7 +6,6 @@ workflows:
     environment:
       flutter: stable
       java: 17
-            gradle:8.5
     scripts:
       - name: Set up local.properties
         script: |
@@ -16,6 +15,9 @@ workflows:
           flutter packages pub get
       - name: Build Android AAB
         script: |
+          cd android
+          ./gradlew wrapper --gradle-version 8.5
+          cd ..
           flutter build appbundle --debug
     artifacts:
       - build/app/outputs/bundle/**/*.aab
