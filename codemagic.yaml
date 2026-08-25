@@ -12,16 +12,34 @@ workflows:
           echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
       - name: Fix Android and Clean Project
         script: |
-          # إعادة توليد ملفات أندرويد القياسية النظيفة وحذف التعارضات القديمة
           flutter create . --platforms=android
           flutter clean
+      - name: Resolve Gradle Conflicts and Update SDK 36
+        script: |
+          # إزالة ملف كوتلن الزائد لمنع التعارض والانهيار فوراً
+          rm -f android/app/build.gradle.kts
+          rm -f android/build.gradle.kts
+          
+          # رفع إصدار الـ SDK إلى 36 تلبية لمتطلبات الحزمة
+          sed -i '' 's/compileSdkVersion .*/compileSdkVersion 36/g' android/app/build.gradle
+          sed -i '' 's/targetSdkVersion .*/targetSdkVersion 36/g' android/app/build.gradle
+          sed -i '' 's/compileSdk .*/compileSdk 36/g' android/app/build.gradle
+          sed -i '' 's/targetSdk .*/targetSdk 36/g' android/app/build.gradle
+          
+          # تحديث صيغة كوتلن المتوافقة
+          sed -i '' '/apply plugin: .com.android.application./a\
+          plugins { id "com.android.application" }
+          ' android/app/build.gradle
+          sed -i '' '/apply plugin: .kotlin-android./d' android/app/build.gradle
+          sed -i '' '/plugins {/a\
+              id "org.jetbrains.kotlin.android"
+          ' android/app/build.gradle
       - name: Enable Web Support and Get Packages
         script: |
           flutter config --enable-web
           flutter pub get
       - name: Build Android APK
         script: |
-          # البناء المستقر والآمن عبر فلاتر مباشرة
           flutter build apk --release
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
