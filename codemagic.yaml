@@ -37,7 +37,7 @@ workflows:
           flutter pub get
       - name: Build Android APK
         script: |
-          # حقن إجباري ومباشر لملف Manifest السليم لإنهاء أخطاء النقص تماماً
+          # إنشاء المجلد وحقن ملف المانيفست بالرابط الرسمي الصحيح
           mkdir -p android/app/src/main
           cat << 'EOF' > android/app/src/main/AndroidManifest.xml
           <manifest xmlns:android="http://android.com">
